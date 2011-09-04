@@ -1,0 +1,27 @@
+[{
+    "description":  "This is a great task",
+    "abstract": "NSA Belgum to UHJ: .....",
+    "closed": false,
+    "wizardNumbers": [
+        {
+            "number": "123455",
+            "url": "http://wizard/stuff.pdf"
+        },
+        {
+            "number": "123355",
+            "url": "http://wizard/stuff.pdf"
+        }]
+}, {
+    "description":  "This is a great task",
+    "abstract": "NSA Belgum to UHJ: .....",
+    "closed": false,
+    "wizardNumbers": [
+        {
+            "number": "123455",
+            "url": "http://wizard/stuff.pdf"
+        },
+        {
+            "number": "123355",
+            "url": "http://wizard/stuff.pdf"
+        }]
+}]
