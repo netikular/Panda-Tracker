@@ -22,6 +22,10 @@
       this.set({'selected':false});
     },
     
+    toggleSelected: function(){
+      this.set({'selected':!this.get('selected')})
+    }
+    
   });
   
   //Collections
@@ -43,20 +47,40 @@
     template: "#task-template",
     tagName: 'tr',
     className: 'task',
+    
+    events:{
+      'click td': 'toggleSelected'
+    },
 
     initialize: function(){
-      _.bindAll(this,'render');
+      _.bindAll(this,'render','select');
       this.template = _.template($(this.template).html());
+      this.model.bind('change:selected',this.select);
     },
+    
     render: function(){
-      $(this.el).html(this.template(this.model.toJSON()));             
+      $(this.el).html(this.template(this.model.toJSON()));   
+      this.select();
       return this;
+    },
+    
+    select: function(){
+      $(this.el).toggleClass('selected',this.model.isSelected());
+    },
+    
+    toggleSelected: function(){
+      this.model.toggleSelected();
     }
   });
 
   window.TaskListView = Backbone.View.extend({
     template: "#tasklist-template",
     className: 'tasklist',
+
+    events: {
+      'click #select-all': 'selectAll',
+      'click #unselect-all': 'unselectAll'
+    },
 
     initialize: function(){
       _.bindAll(this,'render');
@@ -73,12 +97,21 @@
         $tasks.append(view.render().el);
       });
       return this;
+    },
+    
+    selectAll: function(){
+      this.collection.selectAll();
+    },
+
+    unselectAll: function(){
+      this.collection.unselectAll();
     }
+    
   });
   
   window.tasklist = new TaskList();
-  task = new Task({'abstract':'stuff', 'description':'more stuff'});
-  task2 = new Task({'abstract':'stuff2', 'description':'more stuff2'});
+  task = new Task({'abstract':'stuff', 'description':'more stuff','selected':true});
+  task2 = new Task({'abstract':'stuff2', 'description':'more stuff2','selected':false});
   window.tasklist.add(task);
   window.tasklist.add(task2);
 })(jQuery);
