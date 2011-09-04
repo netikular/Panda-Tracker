@@ -38,10 +38,47 @@
     }
   });
   
+  //Views
+  window.TaskView = Backbone.View.extend({
+    template: "#task-template",
+    tagName: 'tr',
+    className: 'task',
+
+    initialize: function(){
+      _.bindAll(this,'render');
+      this.template = _.template($(this.template).html());
+    },
+    render: function(){
+      $(this.el).html(this.template(this.model.toJSON()));             
+      return this;
+    }
+  });
+
+  window.TaskListView = Backbone.View.extend({
+    template: "#tasklist-template",
+    className: 'tasklist',
+
+    initialize: function(){
+      _.bindAll(this,'render');
+      this.template = _.template($(this.template).html());
+    },
+
+    render: function(){
+      var $tasks,
+          collection = this.collection;
+      $(this.el).html(this.template({}));
+      $tasks = this.$(".tasks");
+      this.collection.each(function(task) {
+        var view = new TaskView({ model: task});
+        $tasks.append(view.render().el);
+      });
+      return this;
+    }
+  });
   
   window.tasklist = new TaskList();
-  //Views
-  task
-  
-  
+  task = new Task({'abstract':'stuff', 'description':'more stuff'});
+  task2 = new Task({'abstract':'stuff2', 'description':'more stuff2'});
+  window.tasklist.add(task);
+  window.tasklist.add(task2);
 })(jQuery);
