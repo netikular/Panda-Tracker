@@ -1,5 +1,14 @@
-html, body {
-  height: 100%;
+/*Default Overrides*/
+html, body 
+{
+    height: 100%;
+    background-color: #5c87b2;
+    font-size: .75em;
+    font-size: 12px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    margin: 0px 0px 120px 0px;
+    padding: 0;
+    color: #696969;
 }
 
 body {
@@ -7,13 +16,229 @@ body {
 	padding: 0;
 }
 
-#container {
-  height: auto;
-  min-height: 100%;
-	position: relative;
+form
+{
+	margin:0;
+}
+
+input, textarea, select
+{
+	font-size: 1em;
+}
+
+textarea
+{
+	font-family: Verdana, Helvetica, Sans-Serif;
+}
+
+img
+{
+    border: 0;
+}
+
+a:link
+{
+    color: #034af3;
+    text-decoration: underline;
+}
+a:visited
+{
+    color: #505abc;
+}
+a:hover
+{
+    color: #1d60ff;
+    text-decoration: none;
+}
+a:active
+{
+    color: #1d60ff;
+}
+
+p, ul
+{
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 1.6em;
+}
+
+/*Application specific*/
+#header
+{
+	margin-left: auto;
+	margin-right: auto;
+    width:1020px;
+    position: relative;
+    *position: static;   /* for ie7 - goes with definitions on body tag */
+    margin-bottom: 0px;
+    color: #000;
+}
+
+#header h1
+{
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    border: none;
+    line-height: 1.4em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px !important;
+}
+
+#container
+{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 10px 15px 10px;
+    background-color: #fff;
+    width:960px;
+    height: auto;
+    min-height: 100%;
+    position: relative;
+    border-radius:10px;
+}
+    #col1 
+    {
+        width:150px;
+        float:left;
+    }
+        ul 
+        {
+            padding:5px;
+            list-style: none;
+        }
+
+    #col2
+    {
+        width:770px;
+        float:left;
+    }
+        #toolbar 
+        {
+            margin-top:2px;
+            padding-left:10px;
+            padding-right:10px;
+        }
+            #actions
+            {
+                margin-left:10px;
+            }
+            #search
+            {
+                margin-left:5px;
+                margin-right:5px;
+            }
+            .visual_search 
+            {
+                width:500px;
+                float:left;
+            }
+
+#footer
+{
+    color: #999999;
+    padding: 10px 0;
+    text-align: center;
+    line-height: normal;
+    margin: 0;
+    font-size: .9em;
 }
 
 .tasklist .selected {
-  background:yellow;
+    background:yellow;
 }
+
+/* Styles for information popup 
+---------------------------------------------------------- */
+#flashcontainer
+{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 9000;
+}
+
+.hide 
+{ 
+    display: none; 
+}
+
+.flash
+{
+    padding: 4px;
+    border-top: 1px solid #FFCC66;
+    border-bottom: 4px solid #FFCC66;
+    font-family: helvetica;
+    font-size: 1.4em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flash, .flash ul 
+{
+	line-height: 1.4em;
+}
+
+.flash.info
+{
+    background-color: #CCFFCC;
+    border-top-color: #006600;
+    border-bottom-color: #006600;
+    color: #339933;
+}
+
+.flash.warning
+{
+    background-color: #FFFF99;
+    border-top-color: #CC9900;
+    border-bottom-color: #CC9900;
+    color: #663300;
+}
+
+.flash.error
+{
+    background-color: #FFCC99;
+    border-top-color: #800000;
+    border-bottom-color: #800000;
+    color: #990000;
+}
+
+.flash.error .close
+{
+	display:block;
+}
+
+.flash .close
+{
+	border: 2px solid white;
+	cursor: pointer;
+	float: right;
+	margin-top: 1px;
+	margin-right: 20px;
+	padding-left: 4px;
+	padding-right: 4px;
+	text-decoration: none;
+	line-height: 1em;
+	display:none;
+}
+.flash .close:hover
+{
+	background-color: White;
+}
+
+.flash div ul
+{
+	margin: auto;
+	display: inline-block;
+	list-style-type: none;
+}
+
+/* MISC */
+.clear
+{
+    clear: both;
+}
+
 /* vim:set sw=4:ts=4:expandtab */

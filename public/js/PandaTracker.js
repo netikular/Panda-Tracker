@@ -88,14 +88,13 @@
     },
 
     render: function(){
-      var $tasks,
-          collection = this.collection;
+      var $tasks = this.$(".tasks");
+
       $(this.el).html(this.template({}));
-      $tasks = this.$(".tasks");
       this.collection.each(function(task) {
-        var view = new TaskView({ model: task});
-        $tasks.append(view.render().el);
+        $tasks.append(new TaskView({ model: task}).render().el);
       });
+
       return this;
     },
     
