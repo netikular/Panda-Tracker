@@ -50,28 +50,43 @@
     
     <script type="application/javascript">
 	$(function() {
+	  $("#settings")
+	    .button({
+	      text:false,
+	      icons : {
+	        primary: "ui-icon-gear"
+        }
+	    });
+      
+    $("#select-option").button({
+      text:false,
+      icons: {
+        primary: "ui-icon-triangle-1-s"
+      }
+    });
+	    
 		$("#actions")
 			.button()
 			.next()
-            .button( {
-                text: false,
-                icons: {
-                    primary: "ui-icon-triangle-1-s"
-                }
-            });
+          .button( {
+              text: false,
+              icons: {
+                  primary: "ui-icon-triangle-1-s"
+              }
+          });
 
-		    $("#toolbar").buttonset();
+    $("#toolbar").buttonset();
 
 
-            var visualSearch = VS.init({
-                container : $('.visual_search'),
-                query     : '',
-                callbacks : {
-                    search          : function(query,searchCollection) {},
-                    facetMatches    : function(callback) {},
-                    valueMatches    : function(facet,searchTerm,callback) {}
-                }
-            });
+    var visualSearch = VS.init({
+        container : $('.visual_search'),
+        query     : '',
+        callbacks : {
+            search          : function(query,searchCollection) {},
+            facetMatches    : function(callback) {},
+            valueMatches    : function(facet,searchTerm,callback) {}
+        }
+    });
 	});
 	</script>
 
@@ -79,8 +94,9 @@
 
   <body>
       <div id="header">
-          <h1>Panda Tracker</h1>
+          <h1 style="float:left">Panda Tracker</h1>
       </div>
+    <br class="clear"/>
     <div id="container">
         <div id="col1">
             <ul>
@@ -95,15 +111,14 @@
                  </li>
             </ul>
         </div>
+
         <div id="col2">
+            <br class="clear"/>
             <div id="toolbar" class="ui-widget-header ui-corner-all">
-                <div class="visual_search"></div>
-                <button id="select-all">Sel All</button>
-                <button id="unselect-all">Un All</button>
-                <span style="float:right;">
-                    <button id="actions">Run last action</button>
-                    <button id="actions-select">Select an action</button>
-                </span>
+                <button id="select-option"> hi </button>                
+                <button id="actions">Run last action</button>
+                <button id="actions-select">Select an action</button>
+                <button id="settings">Settings</button>
             </div>
         </div>
     </div>

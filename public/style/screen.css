@@ -65,13 +65,14 @@ p, ul
 /*Application specific*/
 #header
 {
-	margin-left: auto;
-	margin-right: auto;
+	  margin-left: auto;
+	  margin-right: auto;
     width:1020px;
     position: relative;
     *position: static;   /* for ie7 - goes with definitions on body tag */
     margin-bottom: 0px;
     color: #000;
+    padding-top:10px;
 }
 
 #header h1
@@ -132,7 +133,7 @@ p, ul
             .visual_search 
             {
                 width:500px;
-                float:left;
+                float:right;
             }
 
 #footer
