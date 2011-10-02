@@ -15,6 +15,75 @@
     <link rel="stylesheet" href="style/screen.css" media="screen, projection">
     <link rel="stylesheet" href="style/fancypants.css" media="screen, projection">
 
+    <style type="text/css">
+      input{
+        margin:0px;
+      }
+      .left {
+        float:left;
+      }
+      
+      .right {
+        float:right;
+      }
+
+      .middle {
+        float:left;
+        display:inline;
+      }
+
+      .visual-search {
+        width:495px;
+        margin-top:2px;
+      }
+
+      .dropdown {
+        list-style: none;
+        background: #FCFCFC;
+        position: absolute;
+        z-index: 100;
+        left: 3px;
+        top: 22px;
+        width: 130px;
+        border: 1px solid #AFAFAF;
+        text-align:left;
+        display:none;
+        margin:0px;
+        padding:2px;
+      }
+
+      .dropdown.actions {
+        left:10px;
+      }
+
+      .dropdown li:hover {
+        cursor:pointer;
+      }
+
+      .removeme {
+        width:100%;
+        height:100%;
+        position:absolute;
+        top:0;
+        left:0;
+      }
+
+      .results {
+        width:100%;
+      }
+
+      .results tr > td:first-child {
+        width:10px;
+        cursor: url(style/vendor/google/openhand.cur),default;
+        background: url(style/vendor/google/grippy.png) no-repeat 4px 50%;
+      }
+
+      .results tr > td:first-child + td {
+        width:10px;
+      }
+
+    </style>
+
     <script src="js/vendor/modernizr-1.6.min.js"></script>
     <script src="js/vendor/jquery-1.5.1.min.js"></script>
     <script src="js/vendor/jquery-ui-1.8.16.custom.min.js"></script>
@@ -50,6 +119,44 @@
     
     <script type="application/javascript">
 	$(function() {
+      
+    $('#select-all').button({
+        text:true,
+        icons : {
+          secondary: 'ui-icon-triangle-1-s'
+          }
+      })
+      .find("input")
+      .click(function(e){e.stopPropagation()});
+    $('#select-container').find(".dropdown li").click(function(){console.log("do-work2");});
+
+    
+
+    $("#actions-select, #select-all").click(function(){
+              var $parent = $(this).parent();
+              $parent.find(".dropdown").toggle();
+              $("body").append('<div class="removeme">&nbsp;</div>');
+              $(".removeme").click(function(){
+                $parent.find('.dropdown').hide();
+                $(this).remove();
+              });
+            }).parent().find(".dropdown li").click(function(){$(this).parent().toggle();$(".removeme").remove();});
+
+
+		$("#actions")
+			.button()
+			.next()
+        .button( {
+            text: false,
+            icons: {
+                primary: "ui-icon-triangle-1-s"
+            }
+            })      .parent().find(".dropdown li").click(function(){console.log("do-work");});
+
+
+    $('#extra-commands').buttonset();
+
+
 	  $("#settings")
 	    .button({
 	      text:false,
@@ -57,29 +164,19 @@
 	        primary: "ui-icon-gear"
         }
 	    });
-      
-    $("#select-option").button({
-      text:false,
-      icons: {
-        primary: "ui-icon-triangle-1-s"
-      }
-    });
-	    
-		$("#actions")
-			.button()
-			.next()
-          .button( {
-              text: false,
-              icons: {
-                  primary: "ui-icon-triangle-1-s"
-              }
-          });
 
-    $("#toolbar").buttonset();
+    var fixHelper = function(e, ui) {
+        ui.children().each(function() {
+            $(this).width($(this).width());
+        });
+        return ui;
+    };
+
+    $(".results tbody").sortable({ helper:fixHelper }).disableSelection();
 
 
     var visualSearch = VS.init({
-        container : $('.visual_search'),
+        container : $('.visual-search'),
         query     : '',
         callbacks : {
             search          : function(query,searchCollection) {},
@@ -113,13 +210,83 @@
         </div>
 
         <div id="col2">
-            <br class="clear"/>
-            <div id="toolbar" class="ui-widget-header ui-corner-all">
-                <button id="select-option"> hi </button>                
-                <button id="actions">Run last action</button>
-                <button id="actions-select">Select an action</button>
+            <div id="toolbar" class="ui-widget-header ui-corner-all" style="position:relative">
+              <div class="left">
+                <span id="select-container" style="position:relative">
+                  <button id="select-all">
+                    <input type="checkbox"/>
+                  </button>
+                  <ul class="dropdown">
+                    <li>option 1</li>
+                  </ul>
+                </span>
+              </div>
+              <div class="middle">
+                <div class="visual-search"></div>
+              </div>
+
+              <div class="right">
+                <span id="extra-commands" style="position:relative">
+                  <button id="actions">****** jon</button>
+                  <button id="actions-select">Select an action</button>
+                  <ul class="dropdown actions">
+                    <li>action 1</li>
+                  </ul>
+                </span>
                 <button id="settings">Settings</button>
+              </div>
+              <br class="clear"/>
             </div>
+
+            <table class="results">
+              <tbody>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="checkbox"/></td>
+                  <td>1</td>
+                  <td>Stuff</td>
+                  <td>Awesome</td>
+                  <td>bleh</td>
+                  <td>woot</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="checkbox"/></td>
+                  <td>1</td>
+                  <td>Stuff</td>
+                  <td>Awesome</td>
+                  <td>bleh</td>
+                  <td>woot</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="checkbox"/></td>
+                  <td>1</td>
+                  <td>Stuff</td>
+                  <td>Awesome</td>
+                  <td>bleh</td>
+                  <td>woot</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="checkbox"/></td>
+                  <td>1</td>
+                  <td>Stuff</td>
+                  <td>Awesome</td>
+                  <td>bleh</td>
+                  <td>woot</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="checkbox"/></td>
+                  <td>1</td>
+                  <td>Stuff</td>
+                  <td>Awesome</td>
+                  <td>bleh</td>
+                  <td>woot</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
     </div>
     <div id="footer"</div>
