@@ -35,6 +35,7 @@
       .visual-search {
         width:495px;
         margin-top:2px;
+        float:left;
       }
 
       .dropdown {
@@ -56,6 +57,10 @@
         left:10px;
       }
 
+      .dropdown.tags {
+        left:100px;
+      }
+
       .dropdown li:hover {
         cursor:pointer;
       }
@@ -69,7 +74,7 @@
       }
 
       .results {
-        width:100%;
+        width:770px;
       }
 
       .results tr > td:first-child {
@@ -78,8 +83,20 @@
         background: url(style/vendor/google/grippy.png) no-repeat 4px 50%;
       }
 
-      .results tr > td:first-child + td {
+      .results tr > td:nth-child(2) {
         width:10px;
+        background-color:yellow;
+      }
+
+      .highlighted {
+        background-color:yellow;
+      }
+
+      .transformed {
+        -webkit-transform: rotate(5deg) scale(1.25, 0.5);
+        -moz-transform: rotate(5deg) scale(1.25, 0.5);
+        -ms-transform: rotate(5deg) scale(1.25, 0.5);
+        transform: rotate(5deg) scale(1.25, 0.5);
       }
 
     </style>
@@ -119,7 +136,8 @@
     
     <script type="application/javascript">
 	$(function() {
-      
+
+    //toolbar
     $('#select-all').button({
         text:true,
         icons : {
@@ -128,11 +146,22 @@
       })
       .find("input")
       .click(function(e){e.stopPropagation()});
+
     $('#select-container').find(".dropdown li").click(function(){console.log("do-work2");});
 
-    
+    $("#tags").button()
+	    .next()
+        .button( {
+            text: false,
+            icons: {
+                primary: "ui-icon-triangle-1-s"
+            }
+            })      .parent().find(".dropdown li").click(function(){console.log("do-work");});
 
-    $("#actions-select, #select-all").click(function(){
+
+    $("#tag-commands").buttonset();
+
+    $("#actions-select, #select-all,#tag-select").click(function(){
               var $parent = $(this).parent();
               $parent.find(".dropdown").toggle();
               $("body").append('<div class="removeme">&nbsp;</div>');
@@ -141,7 +170,6 @@
                 $(this).remove();
               });
             }).parent().find(".dropdown li").click(function(){$(this).parent().toggle();$(".removeme").remove();});
-
 
 		$("#actions")
 			.button()
@@ -156,6 +184,9 @@
 
     $('#extra-commands').buttonset();
 
+    $("#close").button();
+    $("#remove").button();
+    $("#common-commands").buttonset();
 
 	  $("#settings")
 	    .button({
@@ -165,16 +196,23 @@
         }
 	    });
 
-    var fixHelper = function(e, ui) {
-        ui.children().each(function() {
-            $(this).width($(this).width());
-        });
-        return ui;
+    //sortable table
+    var start = function(){
+      $(this).toggleClass("highlight");
+    }
+    var fixHelper = function() {
+      //return $(this).parent().clone().addClass("transformed");
+      return $("#dragger").clone().show().addClass("transformed");
     };
+    //$(".results tbody").sortable({ helper:fixHelper }).disableSelection();
 
-    $(".results tbody").sortable({ helper:fixHelper }).disableSelection();
 
+    $(".results tbody tr > td:first-child ").draggable({helper:fixHelper}).disableSelection();
 
+    //shift select
+
+    //search box
+    $("#search").button();
     var visualSearch = VS.init({
         container : $('.visual-search'),
         query     : '',
@@ -190,26 +228,17 @@
   </head>
 
   <body>
+      <div id="dragger" style="display:none;border:1px solid black;background:blue;color:white;width:100px;height:20px;text-align:centre">DRAGGING!!</div>
       <div id="header">
           <h1 style="float:left">Panda Tracker</h1>
       </div>
     <br class="clear"/>
     <div id="container">
-        <div id="col1">
-            <ul>
-                <li> Useful Action Set 1
-                    <ul>
-                        <li> Useful Action 1 </li>
-                        <li> Useful Action 1 </li>
-                        <li> Useful Action 1 </li>
-                        <li> Useful Action 1 </li>
-                        <li> Useful Action 1 </li>
-                    </ul>
-                 </li>
-            </ul>
-        </div>
-
-        <div id="col2">
+          <div>
+            <div class="visual-search"></div>
+            <button id="search">Search</button>
+          </div>
+            <br class="clear"/>
             <div id="toolbar" class="ui-widget-header ui-corner-all" style="position:relative">
               <div class="left">
                 <span id="select-container" style="position:relative">
@@ -220,12 +249,21 @@
                     <li>option 1</li>
                   </ul>
                 </span>
-              </div>
-              <div class="middle">
-                <div class="visual-search"></div>
+                <span id="common-commands">
+                  <button id="close">Close</button>
+                  <button id="remove">Remove</button>
+                </span>
               </div>
 
               <div class="right">
+                <!--
+                <span id="tag-commands" style="position:relative">
+                  <button id="tags">AwesomeTag 0</button>
+                  <button id="tag-select">Select an action</button>
+                  <ul class="dropdown tags">
+                    <li>AwesomeTag 1</li>
+                  </ul>
+                </span>
                 <span id="extra-commands" style="position:relative">
                   <button id="actions">****** jon</button>
                   <button id="actions-select">Select an action</button>
@@ -233,6 +271,8 @@
                     <li>action 1</li>
                   </ul>
                 </span>
+                -->
+                <button id="tags">Send for House Member</button>
                 <button id="settings">Settings</button>
               </div>
               <br class="clear"/>
@@ -287,7 +327,6 @@
                 </tr>
               </tbody>
             </table>
-        </div>
     </div>
     <div id="footer"</div>
   </body>
