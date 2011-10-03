@@ -74,7 +74,24 @@
       }
 
       .results {
-        width:770px;
+        width:100%;
+      }
+      
+      .results tr {
+        border-collapse:collapse;
+        -webkit-border-horizontal-spacing: 0px;
+        -webkit-border-vertical-spacing: 0px;
+        
+      }
+      .results td {
+        padding:0px;
+        padding-left:5px;
+        margin:0px;
+        border-collapse:collapse;
+        border-bottom:1px solid lightgray;
+        -webkit-border-horizontal-spacing: 0px;
+        -webkit-border-vertical-spacing: 0px;
+        height:24px;
       }
 
       .results tr > td:first-child {
@@ -83,13 +100,9 @@
         background: url(style/vendor/google/grippy.png) no-repeat 4px 50%;
       }
 
+
       .results tr > td:nth-child(2) {
         width:10px;
-        background-color:yellow;
-      }
-
-      .highlighted {
-        background-color:yellow;
       }
 
       .transformed {
@@ -197,17 +210,31 @@
 	    });
 
     //sortable table
-    var start = function(){
-      $(this).toggleClass("highlight");
-    }
-    var fixHelper = function() {
-      //return $(this).parent().clone().addClass("transformed");
-      return $("#dragger").clone().show().addClass("transformed");
+  
+    var fixHelper = function(e,ui) {
+      ui.children().each(function() {
+              $(this).width($(this).width());
+          });
+      return ui;
     };
+    
+    var start = function(e,ui){
+      $(ui.placeholder).height($(ui.item).height()).append("");
+      $(ui.item).addClass("ui-state-highlight");
+    }
+    
+    var stop = function(e,ui){
+      $(ui.item).removeClass("ui-state-highlight");
+    }
     //$(".results tbody").sortable({ helper:fixHelper }).disableSelection();
 
 
-    $(".results tbody tr > td:first-child ").draggable({helper:fixHelper}).disableSelection();
+    $(".results tbody").sortable({
+      helper:fixHelper,
+      start:start,
+      stop:stop,
+      placeholder: "ui-state-highlight"
+      }).disableSelection();
 
     //shift select
 
@@ -256,29 +283,13 @@
               </div>
 
               <div class="right">
-                <!--
-                <span id="tag-commands" style="position:relative">
-                  <button id="tags">AwesomeTag 0</button>
-                  <button id="tag-select">Select an action</button>
-                  <ul class="dropdown tags">
-                    <li>AwesomeTag 1</li>
-                  </ul>
-                </span>
-                <span id="extra-commands" style="position:relative">
-                  <button id="actions">****** jon</button>
-                  <button id="actions-select">Select an action</button>
-                  <ul class="dropdown actions">
-                    <li>action 1</li>
-                  </ul>
-                </span>
-                -->
-                <button id="tags">Send for House Member</button>
+                <button id="tags">Send for House Member Review</button>
                 <button id="settings">Settings</button>
               </div>
               <br class="clear"/>
             </div>
 
-            <table class="results">
+            <table cellpadding="0" cellspacing="0" class="results">
               <tbody>
                 <tr>
                   <td>&nbsp;</td>
@@ -292,7 +303,7 @@
                 <tr>
                   <td>&nbsp;</td>
                   <td><input type="checkbox"/></td>
-                  <td>1</td>
+                  <td>2</td>
                   <td>Stuff</td>
                   <td>Awesome</td>
                   <td>bleh</td>
@@ -301,7 +312,7 @@
                 <tr>
                   <td>&nbsp;</td>
                   <td><input type="checkbox"/></td>
-                  <td>1</td>
+                  <td>3</td>
                   <td>Stuff</td>
                   <td>Awesome</td>
                   <td>bleh</td>
@@ -310,7 +321,7 @@
                 <tr>
                   <td>&nbsp;</td>
                   <td><input type="checkbox"/></td>
-                  <td>1</td>
+                  <td>4</td>
                   <td>Stuff</td>
                   <td>Awesome</td>
                   <td>bleh</td>
@@ -319,7 +330,7 @@
                 <tr>
                   <td>&nbsp;</td>
                   <td><input type="checkbox"/></td>
-                  <td>1</td>
+                  <td>5</td>
                   <td>Stuff</td>
                   <td>Awesome</td>
                   <td>bleh</td>
