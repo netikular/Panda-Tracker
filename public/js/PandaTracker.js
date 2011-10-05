@@ -41,15 +41,19 @@
       this.each(function(model){model.unselect()});
     }
   });
+
+  window.tasklist = new TaskList();
+  task = new Task({'abstract':'stuff', 'description':'more stuff','selected':true});
+  task2 = new Task({'abstract':'stuff2', 'description':'more stuff2','selected':false});
+  window.tasklist.add(task);
+  window.tasklist.add(task2);
   
   //Views
   window.TaskView = Backbone.View.extend({
     template: "#task-template",
     tagName: 'tr',
-    className: 'task',
     
     events:{
-      'click td': 'toggleSelected'
     },
 
     initialize: function(){
@@ -60,57 +64,70 @@
     
     render: function(){
       $(this.el).html(this.template(this.model.toJSON()));   
-      this.select();
       return this;
-    },
-    
-    select: function(){
-      $(this.el).toggleClass('selected',this.model.isSelected());
-    },
-    
-    toggleSelected: function(){
-      this.model.toggleSelected();
     }
   });
 
-  window.TaskListView = Backbone.View.extend({
-    template: "#tasklist-template",
-    className: 'tasklist',
-
-    events: {
-      'click #select-all': 'selectAll',
-      'click #unselect-all': 'unselectAll'
-    },
+  window.ToolBar = Backbone.View.extend({
+      template: "#toolbar-template",
+      className: "ui-widget-header ui-corner-all toolbar",
 
     initialize: function(){
       _.bindAll(this,'render');
       this.template = _.template($(this.template).html());
     },
-
+    
     render: function(){
-      var $tasks = this.$(".tasks");
+      $(this.el).html(this.template());   
 
-      $(this.el).html(this.template({}));
-      this.collection.each(function(task) {
-        $tasks.append(new TaskView({ model: task}).render().el);
-      });
+      this.$('.select-all').button({
+          text:true,
+          icons : {
+            secondary: 'ui-icon-triangle-1-s'
+            }
+        })
+        .find("input")
+        .click(function(e){e.stopPropagation()});
 
+      this.$('.select-container').find(".dropdown li").click(function(){console.log("do-work2");});
+
+      this.$(".send").button()
+        .next()
+          .button( {
+              text: false,
+              icons: {
+                  primary: "ui-icon-triangle-1-s"
+              }
+              })      .parent().find(".dropdown li").click(function(){console.log("do-work");});
+
+
+      this.$(".tag-commands").buttonset();
+
+      this.$(".actions-select, .select-all,.tag-select").click(function(){
+        var $parent = $(this).parent();
+        $parent.find(".dropdown").toggle();
+        $("body").append('<div class="removeme">&nbsp;</div>');
+        $(".removeme").click(function(){
+          $parent.find('.dropdown').hide();
+          $(this).remove();
+        });
+      }).parent().find(".dropdown li").click(function(){$(this).parent().toggle();$(".removeme").remove();});
+
+      this.$(".close").button();
+      this.$(".remove").button();
+      this.$(".common-commands").buttonset();
+
+      this.$(".settings")
+        .button({
+          text:false,
+          icons : {
+            primary: "ui-icon-gear"
+          }
+        });
       return this;
-    },
-    
-    selectAll: function(){
-      this.collection.selectAll();
-    },
-
-    unselectAll: function(){
-      this.collection.unselectAll();
     }
-    
+      
+      
   });
   
-  window.tasklist = new TaskList();
-  task = new Task({'abstract':'stuff', 'description':'more stuff','selected':true});
-  task2 = new Task({'abstract':'stuff2', 'description':'more stuff2','selected':false});
-  window.tasklist.add(task);
-  window.tasklist.add(task2);
 })(jQuery);

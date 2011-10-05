@@ -15,107 +15,6 @@
     <link rel="stylesheet" href="style/screen.css" media="screen, projection">
     <link rel="stylesheet" href="style/fancypants.css" media="screen, projection">
 
-    <style type="text/css">
-      input{
-        margin:0px;
-      }
-
-      .left {
-        float:left;
-      }
-      
-      .right {
-        float:right;
-      }
-
-      .middle {
-        float:left;
-        display:inline;
-      }
-
-      .visual-search {
-        width:495px;
-        margin-top:2px;
-        float:left;
-      }
-
-      .dropdown {
-        list-style: none;
-        background: #FCFCFC;
-        position: absolute;
-        z-index: 100;
-        left: 3px;
-        top: 22px;
-        width: 130px;
-        border: 1px solid #AFAFAF;
-        text-align:left;
-        display:none;
-        margin:0px;
-        padding:2px;
-      }
-
-        .dropdown.actions {
-          left:10px;
-        }
-
-        .dropdown li:hover {
-          cursor:pointer;
-        }
-
-
-      .results {
-        width:100%;
-      }
-      
-        .results tr {
-          border-collapse:collapse;
-          -webkit-border-horizontal-spacing: 0px;
-          -webkit-border-vertical-spacing: 0px;
-          
-        }
-        .results td {
-          padding:0px;
-          padding-left:5px;
-          margin:0px;
-          border-collapse:collapse;
-          border-bottom:1px solid lightgray;
-          -webkit-border-horizontal-spacing: 0px;
-          -webkit-border-vertical-spacing: 0px;
-          height:24px;
-        }
-
-        .results tr > td:first-child {
-          width:10px;
-          cursor: url(style/vendor/google/openhand.cur),default;
-          background: url(style/vendor/google/grippy.png) no-repeat 4px 50%;
-        }
-
-
-        .results tr > td:nth-child(2) {
-          width:10px;
-        }
-
-        .results tbody tr:last-child td {
-          border:0px;
-        }
-
-      .transformed {
-        -webkit-transform: rotate(5deg) scale(1.25, 0.5);
-        -moz-transform: rotate(5deg) scale(1.25, 0.5);
-        -ms-transform: rotate(5deg) scale(1.25, 0.5);
-        transform: rotate(5deg) scale(1.25, 0.5);
-      }
-
-      .removeme {
-        width:100%;
-        height:100%;
-        position:absolute;
-        top:0;
-        left:0;
-      }
-
-    </style>
-
     <script src="js/vendor/modernizr-1.6.min.js"></script>
     <script src="js/vendor/jquery-1.5.1.min.js"></script>
     <script src="js/vendor/jquery-ui-1.8.16.custom.min.js"></script>
@@ -125,25 +24,40 @@
 
     <script src="js/PandaTracker.js"></script>
 
-    <script type="text/template" id="tasklist-template">
-      <button id="select-all">Select All</button>
-      <button id="unselect-all">UnSelect All</button>
-      <table class="tasks">
-        <thead>
-          <tr>
-            <th>description</th>
-            <th>abstract</th>
-          </tr>
-        </thead>
-      </table>      
+    <script type="text/template" id="toolbar-template">
+        <div class="left">
+          <span class="select-container" style="position:relative">
+            <button class="select-all">
+              <input type="checkbox"/>
+            </button>
+            <ul class="dropdown">
+              <li>option 1</li>
+            </ul>
+          </span>
+          <span class="common-commands">
+            <button class="close">Close</button>
+            <button class="remove">Remove</button>
+          </span>
+        </div>
+        <div class="right">
+          <button class="send">Send for House Member Review</button>
+          <button class="settings">Settings</button>
+        </div>
+        <br class="clear"/>
     </script>
     
     <script type="text/template" id="task-template">
-      <td><%= description %></td>
-      <td><%= abstract %></td>
+      <td>&nbsp;</td>
+      <td><input type="checkbox"/></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </script>
 
     <script type="application/javascript">
+      //start the application
       jQuery(function() {
         //window.library.fetch();
       });
@@ -152,39 +66,6 @@
     <script type="application/javascript">
 	$(function() {
 
-    //toolbar
-    $('.select-all').button({
-        text:true,
-        icons : {
-          secondary: 'ui-icon-triangle-1-s'
-          }
-      })
-      .find("input")
-      .click(function(e){e.stopPropagation()});
-
-    $('.select-container').find(".dropdown li").click(function(){console.log("do-work2");});
-
-    $(".send").button()
-	    .next()
-        .button( {
-            text: false,
-            icons: {
-                primary: "ui-icon-triangle-1-s"
-            }
-            })      .parent().find(".dropdown li").click(function(){console.log("do-work");});
-
-
-    $(".tag-commands").buttonset();
-
-    $(".actions-select, .select-all,.tag-select").click(function(){
-              var $parent = $(this).parent();
-              $parent.find(".dropdown").toggle();
-              $("body").append('<div class="removeme">&nbsp;</div>');
-              $(".removeme").click(function(){
-                $parent.find('.dropdown').hide();
-                $(this).remove();
-              });
-            }).parent().find(".dropdown li").click(function(){$(this).parent().toggle();$(".removeme").remove();});
 
 		$(".actions")
 			.button()
@@ -199,17 +80,6 @@
 
     $('.extra-commands').buttonset();
 
-    $(".close").button();
-    $(".remove").button();
-    $(".common-commands").buttonset();
-
-	  $(".settings")
-	    .button({
-	      text:false,
-	      icons : {
-	        primary: "ui-icon-gear"
-        }
-	    });
 
     //sortable table
   
@@ -251,7 +121,11 @@
             valueMatches    : function(facet,searchTerm,callback) {}
         }
     });
+      $(".close").button();
+      $(".remove").button();
+      $(".common-commands").buttonset();
 	});
+
 	</script>
 
   </head>
@@ -267,101 +141,18 @@
             <div class="visual-search"></div>
             <button id="search">Search</button>
           </div>
+          <span class="common-commands">
+            <button class="close">Close</button>
+            <button class="remove">Remove</button>
+          </span>
             <br class="clear"/>
-            <div class="ui-widget-header ui-corner-all" style="position:relative">
-              <div class="left">
-                <span class="select-container" style="position:relative">
-                  <button class="select-all">
-                    <input type="checkbox"/>
-                  </button>
-                  <ul class="dropdown">
-                    <li>option 1</li>
-                  </ul>
-                </span>
-                <span class="common-commands">
-                  <button class="close">Close</button>
-                  <button class="remove">Remove</button>
-                </span>
-              </div>
-
-              <div class="right">
-                <button class="send">Send for House Member Review</button>
-                <button class="settings">Settings</button>
-              </div>
-              <br class="clear"/>
-            </div>
-
+            <span id="toolbar1"></span>
             <table cellpadding="0" cellspacing="0" class="results">
-              <tbody>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td><input type="checkbox"/></td>
-                  <td>1</td>
-                  <td>Stuff</td>
-                  <td>Awesome</td>
-                  <td>bleh</td>
-                  <td>woot</td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td><input type="checkbox"/></td>
-                  <td>2</td>
-                  <td>Stuff</td>
-                  <td>Awesome</td>
-                  <td>bleh</td>
-                  <td>woot</td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td><input type="checkbox"/></td>
-                  <td>3</td>
-                  <td>Stuff</td>
-                  <td>Awesome</td>
-                  <td>bleh</td>
-                  <td>woot</td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td><input type="checkbox"/></td>
-                  <td>4</td>
-                  <td>Stuff</td>
-                  <td>Awesome</td>
-                  <td>bleh</td>
-                  <td>woot</td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td><input type="checkbox"/></td>
-                  <td>5</td>
-                  <td>Stuff</td>
-                  <td>Awesome</td>
-                  <td>bleh</td>
-                  <td>woot</td>
-                </tr>
-              </tbody>
+              <tbody class="results-list">
+               </tbody>
             </table>
-            <div class="ui-widget-header ui-corner-all" style="position:relative">
-              <div class="left">
-                <span class="select-container" style="position:relative">
-                  <button class="select-all">
-                    <input type="checkbox"/>
-                  </button>
-                  <ul class="dropdown">
-                    <li>option 1</li>
-                  </ul>
-                </span>
-                <span class="common-commands">
-                  <button class="close">Close</button>
-                  <button class="remove">Remove</button>
-                </span>
-              </div>
-
-              <div class="right">
-                <button class="send">Send for House Member Review</button>
-                <button class="settings">Settings</button>
-              </div>
-              <br class="clear"/>
-            </div>
+            <span id="toolbar2"></span>
+            
     </div>
     <div id="footer"</div>
   </body>
