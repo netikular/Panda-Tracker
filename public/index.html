@@ -19,6 +19,7 @@
       input{
         margin:0px;
       }
+
       .left {
         float:left;
       }
@@ -53,16 +54,56 @@
         padding:2px;
       }
 
-      .dropdown.actions {
-        left:10px;
-      }
+        .dropdown.actions {
+          left:10px;
+        }
 
-      .dropdown.tags {
-        left:100px;
-      }
+        .dropdown li:hover {
+          cursor:pointer;
+        }
 
-      .dropdown li:hover {
-        cursor:pointer;
+
+      .results {
+        width:100%;
+      }
+      
+        .results tr {
+          border-collapse:collapse;
+          -webkit-border-horizontal-spacing: 0px;
+          -webkit-border-vertical-spacing: 0px;
+          
+        }
+        .results td {
+          padding:0px;
+          padding-left:5px;
+          margin:0px;
+          border-collapse:collapse;
+          border-bottom:1px solid lightgray;
+          -webkit-border-horizontal-spacing: 0px;
+          -webkit-border-vertical-spacing: 0px;
+          height:24px;
+        }
+
+        .results tr > td:first-child {
+          width:10px;
+          cursor: url(style/vendor/google/openhand.cur),default;
+          background: url(style/vendor/google/grippy.png) no-repeat 4px 50%;
+        }
+
+
+        .results tr > td:nth-child(2) {
+          width:10px;
+        }
+
+        .results tbody tr:last-child td {
+          border:0px;
+        }
+
+      .transformed {
+        -webkit-transform: rotate(5deg) scale(1.25, 0.5);
+        -moz-transform: rotate(5deg) scale(1.25, 0.5);
+        -ms-transform: rotate(5deg) scale(1.25, 0.5);
+        transform: rotate(5deg) scale(1.25, 0.5);
       }
 
       .removeme {
@@ -71,45 +112,6 @@
         position:absolute;
         top:0;
         left:0;
-      }
-
-      .results {
-        width:100%;
-      }
-      
-      .results tr {
-        border-collapse:collapse;
-        -webkit-border-horizontal-spacing: 0px;
-        -webkit-border-vertical-spacing: 0px;
-        
-      }
-      .results td {
-        padding:0px;
-        padding-left:5px;
-        margin:0px;
-        border-collapse:collapse;
-        border-bottom:1px solid lightgray;
-        -webkit-border-horizontal-spacing: 0px;
-        -webkit-border-vertical-spacing: 0px;
-        height:24px;
-      }
-
-      .results tr > td:first-child {
-        width:10px;
-        cursor: url(style/vendor/google/openhand.cur),default;
-        background: url(style/vendor/google/grippy.png) no-repeat 4px 50%;
-      }
-
-
-      .results tr > td:nth-child(2) {
-        width:10px;
-      }
-
-      .transformed {
-        -webkit-transform: rotate(5deg) scale(1.25, 0.5);
-        -moz-transform: rotate(5deg) scale(1.25, 0.5);
-        -ms-transform: rotate(5deg) scale(1.25, 0.5);
-        transform: rotate(5deg) scale(1.25, 0.5);
       }
 
     </style>
@@ -151,7 +153,7 @@
 	$(function() {
 
     //toolbar
-    $('#select-all').button({
+    $('.select-all').button({
         text:true,
         icons : {
           secondary: 'ui-icon-triangle-1-s'
@@ -160,9 +162,9 @@
       .find("input")
       .click(function(e){e.stopPropagation()});
 
-    $('#select-container').find(".dropdown li").click(function(){console.log("do-work2");});
+    $('.select-container').find(".dropdown li").click(function(){console.log("do-work2");});
 
-    $("#tags").button()
+    $(".send").button()
 	    .next()
         .button( {
             text: false,
@@ -172,9 +174,9 @@
             })      .parent().find(".dropdown li").click(function(){console.log("do-work");});
 
 
-    $("#tag-commands").buttonset();
+    $(".tag-commands").buttonset();
 
-    $("#actions-select, #select-all,#tag-select").click(function(){
+    $(".actions-select, .select-all,.tag-select").click(function(){
               var $parent = $(this).parent();
               $parent.find(".dropdown").toggle();
               $("body").append('<div class="removeme">&nbsp;</div>');
@@ -184,7 +186,7 @@
               });
             }).parent().find(".dropdown li").click(function(){$(this).parent().toggle();$(".removeme").remove();});
 
-		$("#actions")
+		$(".actions")
 			.button()
 			.next()
         .button( {
@@ -195,13 +197,13 @@
             })      .parent().find(".dropdown li").click(function(){console.log("do-work");});
 
 
-    $('#extra-commands').buttonset();
+    $('.extra-commands').buttonset();
 
-    $("#close").button();
-    $("#remove").button();
-    $("#common-commands").buttonset();
+    $(".close").button();
+    $(".remove").button();
+    $(".common-commands").buttonset();
 
-	  $("#settings")
+	  $(".settings")
 	    .button({
 	      text:false,
 	      icons : {
@@ -266,25 +268,25 @@
             <button id="search">Search</button>
           </div>
             <br class="clear"/>
-            <div id="toolbar" class="ui-widget-header ui-corner-all" style="position:relative">
+            <div class="ui-widget-header ui-corner-all" style="position:relative">
               <div class="left">
-                <span id="select-container" style="position:relative">
-                  <button id="select-all">
+                <span class="select-container" style="position:relative">
+                  <button class="select-all">
                     <input type="checkbox"/>
                   </button>
                   <ul class="dropdown">
                     <li>option 1</li>
                   </ul>
                 </span>
-                <span id="common-commands">
-                  <button id="close">Close</button>
-                  <button id="remove">Remove</button>
+                <span class="common-commands">
+                  <button class="close">Close</button>
+                  <button class="remove">Remove</button>
                 </span>
               </div>
 
               <div class="right">
-                <button id="tags">Send for House Member Review</button>
-                <button id="settings">Settings</button>
+                <button class="send">Send for House Member Review</button>
+                <button class="settings">Settings</button>
               </div>
               <br class="clear"/>
             </div>
@@ -338,6 +340,28 @@
                 </tr>
               </tbody>
             </table>
+            <div class="ui-widget-header ui-corner-all" style="position:relative">
+              <div class="left">
+                <span class="select-container" style="position:relative">
+                  <button class="select-all">
+                    <input type="checkbox"/>
+                  </button>
+                  <ul class="dropdown">
+                    <li>option 1</li>
+                  </ul>
+                </span>
+                <span class="common-commands">
+                  <button class="close">Close</button>
+                  <button class="remove">Remove</button>
+                </span>
+              </div>
+
+              <div class="right">
+                <button class="send">Send for House Member Review</button>
+                <button class="settings">Settings</button>
+              </div>
+              <br class="clear"/>
+            </div>
     </div>
     <div id="footer"</div>
   </body>
