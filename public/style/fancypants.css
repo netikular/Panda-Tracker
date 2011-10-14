@@ -60,6 +60,10 @@
     float:left;
 }
 
+.select-container {
+    position:relative;
+}
+
 .dropdown {
     list-style: none;
     background: #FCFCFC;
@@ -86,6 +90,8 @@
 
 .results {
     width:100%;
+    margin-top:5px;
+    margin-bottom:5px;
 }
   
     .results tr {
@@ -120,6 +126,12 @@
         border:0px;
     }
 
+    .results td.no-border {
+        border-collapse:collapse;
+        border-bottom:0px !important;
+
+    }
+
 .toolbar {
     position:relative;
 }
@@ -137,6 +149,7 @@
     position:absolute;
     top:0;
     left:0;
+    z-index:99;
 }
 
 #footer
