@@ -100,6 +100,19 @@
         -webkit-border-vertical-spacing: 0px;
 
     }
+
+    .results td:hover {
+        cursor:pointer;
+    }
+    .results input:hover {
+        cursor:default;
+    }
+
+    .results tr.selected
+    {
+        background: #FFC;
+    }
+
     .results td {
         padding:0px;
         padding-left:5px;

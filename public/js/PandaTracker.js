@@ -105,19 +105,74 @@
     template: "#task-template",
     tagName: 'tr',
     
+    //events should be in order of narrowest to widest
     events:{
+      "click input": "select",
+      "click": "edit",
+    },
+
+    edit: function(e) {
+      var tf = new TaskFormView({model: this.model});
+      tf.show();
+    },
+
+    select: function(e) {
+      this.model.toggleSelected();
+      e.stopImmediatePropagation();
+    },
+
+    highlight: function(){
+      $(this.el).removeClass("selected");
+      $(this.el).find("input").removeAttr("checked");
+      if (this.model.isSelected())
+      {
+        $(this.el).addClass("selected");
+        $(this.el).find("input").attr("checked","true");
+      }
     },
 
     initialize: function(){
-      _.bindAll(this,'render','select');
+      _.bindAll(this,'render','highlight');
       this.template = _.template($(this.template).html());
-      this.model.bind('change:selected',this.select);
+      this.model.bind('change:selected',this.highlight);
     },
     
     render: function(){
-      $(this.el).html(this.template(this.model.toJSON()));   
+      $(this.el).html(this.template(this.model.toJSON()));
+      this.highlight();
       return this;
     }
+  });
+
+  window.TaskFormView = Backbone.View.extend({
+    template: "#task-form-template",
+    el: "#task-form",
+
+    initialize: function() {
+      _.bindAll(this,'render');
+      this.template = _.template($(this.template).html()); 
+    },
+
+    render: function() {
+      $(this.el).html(this.template(this.model.toJSON()));
+      $(this.el).dialog({
+        autoOpen: false,
+        height: 500,
+        width: 825,
+        modal: true,
+        close: this.close
+      });
+      return this;
+    },
+
+    show: function() {
+      //is this the best way? -- satisfies the need to clear the form each time.
+      this.render(); 
+      $(this.el).dialog("open");
+    },
+    close: function() {
+      //handle some stuff here cause closing is awesome
+    },
   });
 
   window.SelectButton = Backbone.View.extend({
@@ -186,7 +241,13 @@
       "click .close": "close",
       "click .remove": "remove",
       "click .send": "send",
-      "click .settings": "settings"
+      "click .settings": "settings",
+      "click .new": "new"
+    },
+
+    new: function() {
+      var new_task = new TaskFormView({model: new Task()});
+      new_task.show();
     },
 
     send: function(){
@@ -209,6 +270,7 @@
       _.bindAll(this,'render');
       this.template = _.template($(this.template).html());
       $(this.el).addClass(this.className);
+      this.dialog = this.options["dialog"];
     },
     
     render: function(){
@@ -218,6 +280,8 @@
       $(this.el).find(".select-container").html(sc.render().el);
 
       this.$(".send").button();
+      this.$(".new").button();
+
       this.$(".close").button();
       this.$(".remove").button();
       this.$(".common-commands").buttonset();
