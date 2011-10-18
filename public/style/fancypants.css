@@ -175,4 +175,37 @@
     font-size: .9em;
 }
 
+/* Messing with making the form look good */
+p {
+    padding:0px;
+    margin:0px;
+    margin-top:10px;
+    position:relative;
+}
+
+label {
+    width:120px;
+    float:left;
+    text-align:right;
+    padding-right:10px;
+}
+
+.task_form input textarea{
+    float:left;
+}
+
+.task_form textarea {
+    width:250px;
+    height:80px;
+    vertical-align:top;
+}
+
+.external_systems_info {
+    border:1px solid gray;
+    background:#aaa;
+    height:300px;
+    width:378px;
+    margin-top:10px;
+}
+
 /* vim:set sw=4:ts=4:expandtab */

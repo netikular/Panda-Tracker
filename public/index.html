@@ -52,16 +52,65 @@
 
     <script type="text/template" id="task-form-template">
         <p class="validateTips">All form fields are required.</p>
-
         <form>
-        <fieldset>
-          <label for="name">Name</label>
-          <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
-          <label for="email">Email</label>
-          <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
-        </fieldset>
+          <fieldset class="task_form">
+            <div style="float:left">
+              <p>
+                <label for="description">Description</label>
+                <input id="description" name="description" value="<%=description%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="status">Status</label>
+                <input id="status" name="status" value="<%=status%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="action_date">Action Date</label>
+                <input id="action_date" name="action_date" value="<%=action_date%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="priority">Priority</label>
+                <input id="priority" name="priority" value="<%=priority%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="due_date">Due Date</label>
+                <input id="due_date" name="due_date" value="<%=due_date%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="initials_needed">Initials Needed</label>
+                <input id="initials_needed" name="initials_needed" value="<%=initials_needed%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="aide">Aide</label>
+                <input id="aide" name="aide" value="<%=aide%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="assigned">Assigned</label>
+                <input id="assigned" name="assigned" value="<%=assigned%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="confidential">Confidential</label>
+                <input id="confidential" name="confidential" value="<%=confidential%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="abstract">Abstract</label>
+                <textarea id="abstract" name="abstract" value="<%=abstract%>" class="text ui-widget-content ui-corner-all"><%=abstract%></textarea>
+              </p>
+            </div>
+            <div style="float:right">
+              <p>
+                <label for="wizard_numbers">Wizard Numbers</label>
+                <input id="wizard_numbers" name="wizard_numbers" value="<%=wizard_numbers%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <p>
+                <label for="cap_numbers">Cap Numbers</label>
+                <input id="cap_numbers" name="cap_numbers" value="<%=cap_numbers%>" type="text" class="text ui-widget-content ui-corner-all"/>
+              </p>
+              <div class="external_systems_info">
+              </div>
+            </div>
+            <br class="clear"/>
+            <input type="submit"/>
+          </fieldset>
         </form>
     </script>
 
@@ -83,15 +132,16 @@
             $(this).remove();
           });
 
+          var tf = new TaskFormView({collection:window.tasklist});
 
           var toolbars = [
-            new ToolBar({el:"#toolbar-top"}),
-            new ToolBar({el:"#toolbar-bottom"})
+            new ToolBar({el:"#toolbar-top",taskform:tf}),
+            new ToolBar({el:"#toolbar-bottom",taskform:tf})
           ];
 
           _.each(toolbars,function(tb) {tb.render()});
 
-          var tasklistview = new TaskListView({collection:window.tasklist});
+          var tasklistview = new TaskListView({collection:window.tasklist,taskform:tf});
           $(".results").html(tasklistview.render().el);
 
       });
