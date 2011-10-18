@@ -109,6 +109,7 @@
     initialize: function(){
       _.bindAll(this,'render');
       window.tasklist.bind("add",this.render,this);
+      window.tasklist.bind("remove",this.render,this);
       this.taskform = this.options["taskform"];
     },
     
@@ -329,6 +330,15 @@
 
     remove: function(){
       console.log("remove");
+
+      var list = this.collection.filter(function(model) {
+        return model.isSelected();
+      });
+
+      console.log(this.collection.length);
+
+      this.collection.remove(list);
+      console.log(this.collection.length);
     },
 
     close: function(){
@@ -344,6 +354,7 @@
       this.template = _.template($(this.template).html());
       $(this.el).addClass(this.className);
       this.taskform = this.options["taskform"];
+      this.collection = this.options["collection"];
     },
     
     render: function(){

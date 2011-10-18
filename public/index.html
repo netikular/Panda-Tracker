@@ -135,8 +135,8 @@
           var tf = new TaskFormView({collection:window.tasklist});
 
           var toolbars = [
-            new ToolBar({el:"#toolbar-top",taskform:tf}),
-            new ToolBar({el:"#toolbar-bottom",taskform:tf})
+            new ToolBar({el:"#toolbar-top",taskform:tf,collection:window.tasklist}),
+            new ToolBar({el:"#toolbar-bottom",taskform:tf,collection:window.tasklist})
           ];
 
           _.each(toolbars,function(tb) {tb.render()});
