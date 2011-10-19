@@ -89,61 +89,51 @@
 
 
 .results {
-    width:100%;
-    margin-top:5px;
-    margin-bottom:5px;
+    margin:0px;
+    padding:0px;
+    list-style:none;
 }
-  
-    .results tr {
-        border-collapse:collapse;
-        -webkit-border-horizontal-spacing: 0px;
-        -webkit-border-vertical-spacing: 0px;
-
-    }
-
-    .results td:hover {
+    .results div:hover {
         cursor:pointer;
     }
     .results input:hover {
         cursor:default;
     }
 
-    .results tr.selected
+    .results .selected
     {
         background: #FFC;
     }
 
-    .results td {
-        padding:0px;
-        padding-left:5px;
-        margin:0px;
-        border-collapse:collapse;
-        border-bottom:1px solid lightgray;
-        -webkit-border-horizontal-spacing: 0px;
-        -webkit-border-vertical-spacing: 0px;
-        height:24px;
-    }
-
-    .results tr > td:first-child {
+    .results .grippy {
         width:10px;
-        cursor: url(vendor/google/openhand.cur),default;
+        float:left;
+        margin-right:4px !important;
+        cursor: url(vendor/google/openhand.cur),default !important;
         background: url(vendor/google/grippy.png) no-repeat 4px 50%;
     }
 
-
-    .results tr > td:nth-child(2) {
+    .results .select-box {
         width:10px;
     }
 
-    .results tbody tr:last-child td {
-        border:0px;
+    .results li:nth-child(1) {
+        margin-top:2px;
     }
 
-    .results td.no-border {
-        border-collapse:collapse;
-        border-bottom:0px !important;
-
+    .results li {
+        border:2px solid white;
+        margin-bottom:2px;
     }
+
+.task-row .dataitem{
+    float:left;
+    margin-left:10px;
+}
+
+.task-row .selector{
+    float:left;
+}
 
 .toolbar {
     position:relative;
@@ -154,6 +144,21 @@
     -moz-transform: rotate(5deg) scale(1.25, 0.5);
     -ms-transform: rotate(5deg) scale(1.25, 0.5);
     transform: rotate(5deg) scale(1.25, 0.5);
+}
+
+.border {
+    border: 2px solid #68E !important;
+}
+
+.hidden {
+    display:none;
+}
+
+#tabs {
+    float:left;
+    width:500px;
+    height:100%;
+    margin-left:5px;
 }
 
 .removeme {
@@ -201,10 +206,10 @@ label {
 }
 
 .external_systems_info {
-    border:1px solid gray;
+    border:1px solid grey;
     background:#aaa;
     height:300px;
-    width:378px;
+    width:525px;
     margin-top:10px;
 }
 

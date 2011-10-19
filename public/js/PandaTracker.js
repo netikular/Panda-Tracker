@@ -38,7 +38,7 @@
     // from the server
     defaults: {
                 "selected": false,
-                "description": "",
+                "description": "A New Task",
                 "status": "",
                 "action_date": "",
                 "priority": "",
@@ -49,7 +49,8 @@
                 "confidential": "",
                 "abstract": "",
                 "wizard_numbers": "",
-                "cap_numbers": ""
+                "cap_numbers": "",
+                "agenda_numbers": ""
     },
     
     isClosed: function() {
@@ -103,8 +104,8 @@
   //Views
   //
   window.TaskListView = Backbone.View.extend({
-    tagName: "tbody",
-    className:"results-list",
+    tagName: "ul",
+    className:"results",
 
     initialize: function(){
       _.bindAll(this,'render');
@@ -115,8 +116,9 @@
     
     render: function(){
       $(this.el).empty();
+      
       this.collection.each(function(task){
-        var view = new TaskView({model:task,taskform:this.taskform});
+        var view = new TaskItemView({model:task,collection:window.tasklist});
         $(this.el).append(view.render().el);
       },this);
 
@@ -155,18 +157,57 @@
     //end of the helpers
   });
 
+  //A container view.
+  window.TaskItemView = Backbone.View.extend({
+    tagName: "li",
+
+
+    initialize: function(){
+    },
+
+    render: function(){
+              console.log("TaskItemiewRender");
+      var view = new TaskView({model:this.model});
+      $(this.el).append(view.render().el);
+      var form = new TaskFormView({model:this.model,collection:this.collection});
+      $(this.el).append(form.render().el);
+      return this;
+    },
+
+  });
+
   window.TaskView = Backbone.View.extend({
     template: "#task-template",
-    tagName: 'tr',
+    className: "task-row",
+
+    //instance variables
+    open: false,
     
     //events should be in order of narrowest to widest
     events:{
-      "click input": "select",
+      "click input[type=checkbox]": "select",
       "click": "edit",
     },
 
+
+    boxme: function() {
+      
+      console.log("awesome boxes!");
+    },
+
     edit: function(e) {
-      this.taskform.show(this.model);
+      $(this.el).next().slideToggle(300);
+      var $parent = $(this.el).parent();
+      if (this.open)
+      {
+        $parent.removeClass("border");
+        $parent.removeClass("ui-corner-all");
+      } else {
+        $parent.addClass("border");
+        $parent.addClass("ui-corner-all");
+      }
+
+      this.open = !this.open;
     },
 
     select: function(e) {
@@ -188,10 +229,10 @@
       _.bindAll(this,'render','highlight','edit');
       this.template = _.template($(this.template).html());
       this.model.bind('change',this.render);
-      this.taskform = this.options["taskform"];
     },
     
     render: function(){
+      $(this.el).empty();
       $(this.el).html(this.template(this.model.toJSON()));
       this.highlight();
       return this;
@@ -200,21 +241,22 @@
 
   window.TaskFormView = Backbone.View.extend({
     template: "#task-form-template",
-    el: "#task-form",
+    className: "hidden",
 
     events: {
-      "submit form": "submit"
+      "change form input": "submit",
+      "change form textarea": "submit",
+      "change form select": "submit"
     },
 
     submit: function(e) {
+      e.preventDefault();
 
       this.model.set($(this.el).find("form").serializeObject());
 
       if (!this.collection.include(this.model))
         this.collection.add(this.model);
 
-      $(this.el).dialog("close");
-      e.preventDefault();
     },
 
     initialize: function() {
@@ -226,13 +268,8 @@
     render: function() {
       $(this.el).empty();
       $(this.el).html(this.template(this.model.toJSON()));
-      $(this.el).dialog({
-        autoOpen: false,
-        height: 500,
-        width: 825,
-        modal: true,
-        close: this.close
-      });
+		  $(this.el).find("#tabs").tabs();
+
       return this;
     },
 
@@ -240,11 +277,10 @@
       //is this the best way? -- satisfies the need to clear the form each time.
       this.model = model;
       this.render(); 
-      $(this.el).dialog("open");
+      $(this.el).parent().show();
     },
 
     close: function() {
-      console.log("close");
       $(this.el).empty();
       //handle some stuff here cause closing is awesome
     },
@@ -321,7 +357,7 @@
     },
 
     new: function() {
-      this.taskform.show(new Task());
+      this.collection.add(new Task());
     },
 
     send: function(){

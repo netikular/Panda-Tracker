@@ -51,77 +51,94 @@
     </script>
 
     <script type="text/template" id="task-form-template">
-        <p class="validateTips">All form fields are required.</p>
-        <form>
-          <fieldset class="task_form">
-            <div style="float:left">
-              <p>
-                <label for="description">Description</label>
-                <input id="description" name="description" value="<%=description%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="status">Status</label>
-                <input id="status" name="status" value="<%=status%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="action_date">Action Date</label>
-                <input id="action_date" name="action_date" value="<%=action_date%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="priority">Priority</label>
-                <input id="priority" name="priority" value="<%=priority%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="due_date">Due Date</label>
-                <input id="due_date" name="due_date" value="<%=due_date%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="initials_needed">Initials Needed</label>
-                <input id="initials_needed" name="initials_needed" value="<%=initials_needed%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="aide">Aide</label>
-                <input id="aide" name="aide" value="<%=aide%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="assigned">Assigned</label>
-                <input id="assigned" name="assigned" value="<%=assigned%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="confidential">Confidential</label>
-                <input id="confidential" name="confidential" value="<%=confidential%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="abstract">Abstract</label>
-                <textarea id="abstract" name="abstract" value="<%=abstract%>" class="text ui-widget-content ui-corner-all"><%=abstract%></textarea>
-              </p>
-            </div>
-            <div style="float:right">
-              <p>
-                <label for="wizard_numbers">Wizard Numbers</label>
-                <input id="wizard_numbers" name="wizard_numbers" value="<%=wizard_numbers%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <p>
-                <label for="cap_numbers">Cap Numbers</label>
-                <input id="cap_numbers" name="cap_numbers" value="<%=cap_numbers%>" type="text" class="text ui-widget-content ui-corner-all"/>
-              </p>
-              <div class="external_systems_info">
+        <form class="task_form" onsubmit="return false;">
+          <div class="ui-widget ui-widget-content ui-corner-all" style="float:left">
+            <p>
+              <label for="description">Description</label>
+              <input id="description" name="description" value="<%=description%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="status">Status</label>
+              <input id="status" name="status" value="<%=status%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="action_date">Action Date</label>
+              <input id="action_date" name="action_date" value="<%=action_date%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="priority">Priority</label>
+              <input id="priority" name="priority" value="<%=priority%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="due_date">Due Date</label>
+              <input id="due_date" name="due_date" value="<%=due_date%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="initials_needed">Initials Needed</label>
+              <input id="initials_needed" name="initials_needed" value="<%=initials_needed%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="aide">Aide</label>
+              <input id="aide" name="aide" value="<%=aide%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="assigned">Assigned</label>
+              <input id="assigned" name="assigned" value="<%=assigned%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="confidential">Confidential</label>
+              <input id="confidential" name="confidential" value="<%=confidential%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="wizard_numbers">Wizard Numbers</label>
+              <input id="wizard_numbers" name="wizard_numbers" value="<%=wizard_numbers%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="cap_numbers">Agenda Numbers</label>
+              <input id="cap_numbers" name="cap_numbers" value="<%=cap_numbers%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="agenda_numbers">Cap Numbers</label>
+              <input id="agenda_numbers" name="agenda_numbers" value="<%=agenda_numbers%>" type="text" class="text ui-widget-content ui-corner-all"/>
+            </p>
+            <p>
+              <label for="abstract">Abstract</label>
+              <textarea id="abstract" name="abstract" value="<%=abstract%>" class="text ui-widget-content ui-corner-all"><%=abstract%></textarea>
+            </p>
+          </div>
+          <div style="float:right">
+            <div id="tabs">
+              <ul>
+                <li><a href="#tabs-1">Wizard</a></li>
+                <li><a href="#tabs-2">Cap</a></li>
+                <li><a href="#tabs-3">Agenda</a></li>
+                <li><a href="#tabs-4">Document Tracking System</a></li>
+              </ul>
+              <div id="tabs-1">
+                <h1>Wizard</h1>
+              </div>
+              <div id="tabs-2">
+                <h1>CAP</h1>
+              </div>
+              <div id="tabs-3">
+                <h1>Agenda</h1>
+              </div>
+              <div id="tabs-4">
+                <h1>Document Tracking System</h1>
               </div>
             </div>
-            <br class="clear"/>
-            <input type="submit"/>
-          </fieldset>
+          </div>
+          <br class="clear"/>
         </form>
     </script>
 
     <script type="text/template" id="task-template">
-      <td>&nbsp;</td>
-      <td><input class="selector" type="checkbox" /></td>
-      <td><%= abstract %></td>
-      <td><%= description %></td>
-      <td><%= selected %></td>
-      <td></td>
-      <td></td>
+        <div class="grippy">&nbsp;</div>
+        <div class="selector"><input type="checkbox" /></div>
+        <div class="dataitem"><%= abstract %></div>
+        <div class="dataitem"><%= description %></div>
+        <div class="dataitem"><%= selected %></div>
+        <br class="clear"/>
     </script>
 
     <script type="application/javascript">
@@ -142,7 +159,7 @@
           _.each(toolbars,function(tb) {tb.render()});
 
           var tasklistview = new TaskListView({collection:window.tasklist,taskform:tf});
-          $(".results").html(tasklistview.render().el);
+          $("#resultsdiv").html(tasklistview.render().el);
 
       });
     </script>
@@ -167,7 +184,22 @@
   </head>
 
   <body>
-    <div id="task-form" title="Create new Task"></div>
+
+    <!--
+    <ul class="TaskListView">
+      <li class="TaskItemView">
+        <div class="TaskView">data</div>
+        <div class="TaskFormView">form</div>
+      </li>
+      <li>
+        <div>data</div>
+        <div>form</div>
+      </li>
+    </ul>
+    -->
+
+
+    <div id="task-form1" title="Create new Task"></div>
     <div id="header">
         <h1 style="float:left">Panda Tracker</h1>
     </div>
@@ -179,8 +211,7 @@
       </div>
       <br class="clear"/>
       <div id="toolbar-top"></div>
-        <table cellpadding="0" cellspacing="0" class="results">
-        </table>
+      <div id="resultsdiv"></div>
       <div id="toolbar-bottom"></div>
     </div>
     <div id="footer"</div>
