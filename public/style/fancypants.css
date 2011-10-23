@@ -96,6 +96,13 @@
     .results div:hover {
         cursor:pointer;
     }
+    .results li {
+        padding:2px;
+    }
+    .results li > div:nth-child(2) {
+        margin-top:10px;
+        margin-bottom:10px;
+    }
     .results input:hover {
         cursor:default;
     }
@@ -117,13 +124,20 @@
         width:10px;
     }
 
-    .results li:nth-child(1) {
-        margin-top:2px;
+    .results ui {
+        padding-top:2px;
     }
 
     .results li {
         border:2px solid white;
         margin-bottom:2px;
+    }
+
+    .results .placeholder {
+        height: 19px;
+        line-height:19px;
+        border:2px solid white;
+        background:#F7E9DA;
     }
 
 .task-row .dataitem{

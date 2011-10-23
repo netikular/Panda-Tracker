@@ -149,16 +149,14 @@
             $(this).remove();
           });
 
-          var tf = new TaskFormView({collection:window.tasklist});
-
           var toolbars = [
-            new ToolBar({el:"#toolbar-top",taskform:tf,collection:window.tasklist}),
-            new ToolBar({el:"#toolbar-bottom",taskform:tf,collection:window.tasklist})
+            new ToolBar({el:"#toolbar-top",collection:window.tasklist}),
+            new ToolBar({el:"#toolbar-bottom",collection:window.tasklist})
           ];
 
           _.each(toolbars,function(tb) {tb.render()});
 
-          var tasklistview = new TaskListView({collection:window.tasklist,taskform:tf});
+          var tasklistview = new TaskListView({collection:window.tasklist});
           $("#resultsdiv").html(tasklistview.render().el);
 
       });

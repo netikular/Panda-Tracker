@@ -38,6 +38,7 @@
     // from the server
     defaults: {
                 "selected": false,
+                "open":false,
                 "description": "A New Task",
                 "status": "",
                 "action_date": "",
@@ -53,16 +54,8 @@
                 "agenda_numbers": ""
     },
     
-    isClosed: function() {
-      return this.get('closed');
-    },
-    
     isSelected: function() {
       return this.get('selected');
-    },
-    
-    close: function() {
-      return this.set({'closed': true});
     },
     
     select: function(){
@@ -75,8 +68,15 @@
     
     toggleSelected: function(){
       this.set({'selected':!this.get('selected')})
+    },
+
+    isOpen: function(){
+      return this.get("open");
+    },
+
+    toggleOpen: function(){
+      this.set({'open':!this.get('open')})
     }
-    
   });
   
   //Collections
@@ -111,7 +111,6 @@
       _.bindAll(this,'render');
       window.tasklist.bind("add",this.render,this);
       window.tasklist.bind("remove",this.render,this);
-      this.taskform = this.options["taskform"];
     },
     
     render: function(){
@@ -123,36 +122,23 @@
       },this);
 
       $(this.el).sortable({
-        helper:this.fixHelper,
         start:this.start,
         stop:this.stop,
-        placeholder: "ui-state-highlight"
+        placeholder: "placeholder"
       }).disableSelection();
+
+      //need to test for any open items so that the sortable can be disabled.
+      $(this.el).sortable("enable");
 
       return this;
     },
 
-    //Helper functions to make sure everything looks good while the sort is working
-    fixHelper: function(e,ui) {
-      ui.children().each(function() {
-        $(this).width($(this).width());
-      });
-      return ui;
-    },
-
     start: function(e,ui){
-      $(ui.placeholder).height($(ui.item).height()).append("");
       $(ui.item).addClass("ui-state-highlight");
-      $(ui.item).children().each(function(index,child) {
-        $(child).addClass("no-border");
-      });
     },
 
     stop: function(e,ui){
       $(ui.item).removeClass("ui-state-highlight");
-      $(ui.item).children().each(function(index,child) {
-        $(child).removeClass("no-border");
-      });
     }
     //end of the helpers
   });
@@ -166,10 +152,22 @@
     },
 
     render: function(){
-              console.log("TaskItemiewRender");
-      var view = new TaskView({model:this.model});
+      var view = new TaskView({model:this.model,collection:this.collection});
       $(this.el).append(view.render().el);
-      var form = new TaskFormView({model:this.model,collection:this.collection});
+
+      var class_name = (this.model.isOpen())?"":"hidden";
+      var form = new TaskFormView({
+        model:this.model,
+        collection:this.collection,
+        className: class_name
+      });
+
+      if (this.model.isOpen())
+      {
+        $(this.el).addClass("border");
+        $(this.el).addClass("ui-corner-all");
+      }
+
       $(this.el).append(form.render().el);
       return this;
     },
@@ -180,34 +178,26 @@
     template: "#task-template",
     className: "task-row",
 
-    //instance variables
-    open: false,
-    
     //events should be in order of narrowest to widest
     events:{
       "click input[type=checkbox]": "select",
-      "click": "edit",
-    },
-
-
-    boxme: function() {
-      
-      console.log("awesome boxes!");
+      "click": "edit"
     },
 
     edit: function(e) {
-      $(this.el).next().slideToggle(300);
       var $parent = $(this.el).parent();
-      if (this.open)
+      $(this.el).next().slideToggle(300);
+      if (!this.model.isOpen())
       {
-        $parent.removeClass("border");
-        $parent.removeClass("ui-corner-all");
-      } else {
         $parent.addClass("border");
         $parent.addClass("ui-corner-all");
+        $(".results").sortable("disable");
+      } else {
+        $parent.removeClass("border",400);
+        $parent.removeClass("ui-corner-all",400);
+        $(".results").sortable("enable");
       }
-
-      this.open = !this.open;
+      this.model.toggleOpen();
     },
 
     select: function(e) {
@@ -215,7 +205,7 @@
       e.stopImmediatePropagation();
     },
 
-    highlight: function(){
+    setViewState: function(){
       $(this.el).removeClass("selected");
       $(this.el).find("input").removeAttr("checked");
       if (this.model.isSelected())
@@ -223,25 +213,28 @@
         $(this.el).addClass("selected");
         $(this.el).find("input").attr("checked","true");
       }
+
     },
 
     initialize: function(){
-      _.bindAll(this,'render','highlight','edit');
+      _.bindAll(this,'render','setViewState','edit');
       this.template = _.template($(this.template).html());
-      this.model.bind('change',this.render);
+      this.model.bind('change:abstract',this.render);
+      this.model.bind('change:description',this.render);
+      this.model.bind('change:selected',this.render);
+      this.collection = this.options['collection'];
     },
     
     render: function(){
-      $(this.el).empty();
       $(this.el).html(this.template(this.model.toJSON()));
-      this.highlight();
+      this.setViewState();
       return this;
     }
   });
 
   window.TaskFormView = Backbone.View.extend({
     template: "#task-form-template",
-    className: "hidden",
+    className: "",
 
     events: {
       "change form input": "submit",
@@ -365,16 +358,11 @@
     },
 
     remove: function(){
-      console.log("remove");
-
       var list = this.collection.filter(function(model) {
         return model.isSelected();
       });
 
-      console.log(this.collection.length);
-
       this.collection.remove(list);
-      console.log(this.collection.length);
     },
 
     close: function(){
@@ -389,7 +377,6 @@
       _.bindAll(this,'render');
       this.template = _.template($(this.template).html());
       $(this.el).addClass(this.className);
-      this.taskform = this.options["taskform"];
       this.collection = this.options["collection"];
     },
     
